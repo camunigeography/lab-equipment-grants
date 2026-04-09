@@ -72,6 +72,7 @@ class labEquipmentGrants extends frontControllerApplication
 			-- Settings
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
+			  `maximumAmount` int NOT NULL COMMENT 'Maximum amount (£)',
 			  `introductionHtml` TEXT NULL DEFAULT NULL COMMENT 'Introduction text'
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
 			INSERT INTO settings (id) VALUES (1);
@@ -296,7 +297,7 @@ class labEquipmentGrants extends frontControllerApplication
 		$dataBindingAttributes = array (
 			'email' => array ('editable' => (!$userForm), 'default' => $this->user . '@cam.ac.uk', ),
 			'name' => array ('editable' => (!$userForm), 'default' => $this->userName, ),
-			'amount' => array ('prepend' => '&pound; ', ),
+			'amount' => array ('prepend' => '&pound; ', 'max' => $this->settings['maximumAmount'], ),
 			'item1Description' => array ('heading' => array (3 => 'Details of your requested items'), ),
 			'item1Amount' => array ('prepend' => '&pound; ', ),
 			'item2Amount' => array ('prepend' => '&pound; ', ),
