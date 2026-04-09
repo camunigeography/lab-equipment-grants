@@ -214,7 +214,7 @@ class labEquipmentGrants extends frontControllerApplication
 		
 		# Show each submission, earliest first
 		foreach ($undecidedSubmissions as $id => $submission) {
-			$html .= "\n<h3>#{$id}: " . htmlspecialchars ($submission['title']) . '</h3>';
+			$html .= "\n<h3 class=\"undecided\">#{$id}: " . htmlspecialchars ($submission['title']) . '</h3>';
 			$html .= $this->templatiseRecord ($submission);
 		}
 		

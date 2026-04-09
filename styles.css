@@ -3,3 +3,4 @@
 #labequipmentgrants .applicationform table table tr th {border-top: 0;}
 #labequipmentgrants .applicationform table table tr td:first-child {width: auto;}
 #labequipmentgrants .applicationform table table td.amount {white-space: nowrap;}
+#labequipmentgrants h3.undecided {page-break-before: always;}
