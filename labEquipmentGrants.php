@@ -36,10 +36,17 @@ class labEquipmentGrants extends frontControllerApplication
 				'icon' => 'add',
 				'authentication' => true,
 			),
+			'undecided' => array (
+				'description' => 'Undecided',
+				'url' => 'undecided/',
+				'tab' => 'Undecided submissions',
+				'icon' => 'application_cascade',
+				'administrator' => true,
+			),
 			'submissions' => array (
-				'description' => 'Submissions',
+				'description' => 'Edit submissions',
 				'url' => 'submissions/',
-				'tab' => 'Submissions',
+				'tab' => 'Edit submissions',
 				'icon' => 'page_white_stack',
 				'administrator' => true,
 			),
@@ -124,6 +131,14 @@ class labEquipmentGrants extends frontControllerApplication
 		$html .= "\n<br />";
 		$html .= "\n<p><a href=\"{$this->baseUrl}/apply/\" class=\"actions\"><img src=\"/images/icons/add.png\" class=\"icon\" /> Apply for a grant</a></p>";
 		
+		# Submissions (for admins)
+		if ($this->userIsAdministrator) {
+			$totalUndecided = $this->getUndecidedTotal ();
+			$html .= "\n<h3>Undecided submissions</h3>";
+			$html .= "\n<br />";
+			$html .= "\n<p><a href=\"{$this->baseUrl}/undecided/\" class=\"actions\"><img src=\"/images/icons/application_cascade.png\" class=\"icon\" /> View undecided submissions ({$totalUndecided})</a></p>";
+		}
+		
 		# Show the HTML
 		echo $html;
 	}
@@ -189,6 +204,66 @@ class labEquipmentGrants extends frontControllerApplication
 	}
 	
 	
+	# Undecided submissions
+	public function undecided ()
+	{
+		# Start the HTML
+		$undecidedSubmissions = $this->getUndecided ();
+		$totalUndecided = count ($undecidedSubmissions);
+		$html = "\n<p>" . ($totalUndecided ? ($totalUndecided == 1 ? "There is currently 1 undecided submission:" : "There are currently {$totalUndecided} undecided submissions, listed in order of submission:") : 'There are no undecided submissions.') . '</p>';
+		
+		# Show each submission, earliest first
+		foreach ($undecidedSubmissions as $id => $submission) {
+			$html .= "\n<h3>#{$id}: " . htmlspecialchars ($submission['title']) . '</h3>';
+			$html .= $this->templatiseRecord ($submission);
+		}
+		
+		# Show the HTML
+		echo $html;
+	}
+	
+	
+	# Function to templatise a submission for display
+	private function templatiseRecord ($submission)
+	{
+		# Get the template
+		$templateHtml = $this->formTemplate (false);
+		$templateHtml = '<div class="ultimateform horizontalonly applicationform">' . $templateHtml . '</div>';
+		$templateHtml = "\n<div class=\"graybox\">" . $templateHtml . "\n</div>";
+		
+		# Add supplementary data
+		$submission['_heading1'] = '<h3>Details of your requested items</h3>';
+		
+		# Prepare data
+		$placeholders = array ();
+		foreach ($submission as $field => $value) {
+			$placeholders['{' . $field . '}'] = (strlen ($value) ? $value : '-');
+		}
+		
+		# Substitute values
+		$html = strtr ($templateHtml, $placeholders);
+		
+		# Return the HTML
+		return $html;
+	}
+	
+	
+	# Function to get the total of undecided submissions
+	private function getUndecided ()
+	{
+		# Get and return the total
+		return $this->databaseConnection->select ($this->settings['database'], $this->settings['table'], array ('status' => 'Submitted'), array (), true, $orderBy = 'updatedAt ASC');
+	}
+	
+	
+	# Function to get total undecided submissions
+	private function getUndecidedTotal ()
+	{
+		# Get and return the total
+		return $this->databaseConnection->getTotal ($this->settings['database'], $this->settings['table'], "WHERE status = 'Submitted'");
+	}
+	
+	
 	# Submissions
 	public function submissions ()
 	{
@@ -237,11 +312,10 @@ class labEquipmentGrants extends frontControllerApplication
 	
 	
 	# Form template
-	public function formTemplate ()
+	public function formTemplate ($formMode = true)
 	{
-		return $html = '
-			{[[PROBLEMS]]}
-			
+		# Create the main HTML
+		$html  = '
 			<table summary="Online submission form">
 				<tr>
 					<td class="title">Title:&nbsp;*</td>
@@ -319,9 +393,15 @@ class labEquipmentGrants extends frontControllerApplication
 					<td class="data">{comments}</td>
 				</tr>
 			</table>
-			
-			{[[SUBMIT]]}
 		';
+		
+		# In form mode, add problems/submit areas
+		if ($formMode) {
+			$html = "\n{[[PROBLEMS]]}\n" . $html . "\n{[[SUBMIT]]}\n";
+		}
+		
+		# Return the HTML
+		return $html;
 	}
 }
 
