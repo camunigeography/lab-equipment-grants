@@ -150,6 +150,20 @@ class labEquipmentGrants extends frontControllerApplication
 			'attributes' => $this->submissionsDataBindingAttributes (true),
 		));
 		
+		# Check amounts
+		if ($unfinalisedData = $form->getUnfinalisedData ()) {
+			if ($unfinalisedData['amount']) {
+				$total = 0;
+				$itemsFields = 5;	// Matching the database structure
+				for ($i = 1; $i <= $itemsFields; $i++) {
+					$total += ((float) $unfinalisedData["item{$i}Amount"] * (int) $unfinalisedData["item{$i}Quantity"]);
+				}
+				if ($total != $unfinalisedData['amount']) {
+					$form->registerProblem ('totalMismatch', 'The total does not match the sum of the requested items. Please check the line items and the total.', 'amount');
+				}
+			}
+		}
+		
 		# Set conformation e-mail to the user
 		$form->setOutputConfirmationEmail ('email', $this->settings['administratorEmail'], 'Small equipment grant application', false, $displayUnsubmitted = false);
 		
