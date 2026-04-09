@@ -1,0 +1,18 @@
+# Small equipment grant applications Apache directives
+
+# Load using:
+#	# Small equipment grant applications system
+#	Include /path/to/lab-equipment-grants/.httpd.conf.extract.txt
+#	Use MacroLabEquipmentGrants /lab-equipment-grants
+
+
+<Macro MacroLabEquipmentGrants $baseUrl>
+	
+	# Front controller application support
+	Use MacroFrontControllerApplication "$baseUrl/" "Small equipment grant applications"
+	
+	# Application routing
+	#RewriteRule ^$baseUrl/(someaction)/$ $baseUrl/index.html?action=$1 [L]
+	#RewriteRule ^$baseUrl/(someaction)$ $baseUrl/$1/ [R]
+	
+</Macro>

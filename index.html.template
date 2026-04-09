@@ -1,0 +1,13 @@
+<?php
+
+# Settings
+$settings = array (
+	'username' => 'my_username',
+	'password' => 'my_password',
+);
+
+# Load and run the application with the above settings
+require_once ('vendor/autoload.php');
+new labEquipmentGrants ($settings);
+
+?>
