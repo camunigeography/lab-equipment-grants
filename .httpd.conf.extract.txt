@@ -12,8 +12,8 @@
 	Use MacroFrontControllerApplication "$baseUrl/" "Small equipment grant applications"
 	
 	# Application routing
-	#RewriteRule ^$baseUrl/(someaction)/$ $baseUrl/index.html?action=$1 [L]
-	#RewriteRule ^$baseUrl/(someaction)$ $baseUrl/$1/ [R]
+	RewriteRule ^$baseUrl/(apply)/$ $baseUrl/index.html?action=$1 [L]
+	RewriteRule ^$baseUrl/(apply)$ $baseUrl/$1/ [R]
 	
 	# Submissions
 	Use MacroSinenomineEmbeddedTable "$baseUrl" "/submissions" "submissions"

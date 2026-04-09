@@ -6,7 +6,8 @@
     "minimum-stability": "stable",
     "require": {
         "libpurecontent/frontcontrollerapplication": "^1.14",
-        "libpurecontent/sinenomine": "^1.1"
+        "libpurecontent/sinenomine": "^1.1",
+        "libpurecontent/ultimateform": "^1.31"
     },
     "autoload": {
         "files": ["labEquipmentGrants.php"]
