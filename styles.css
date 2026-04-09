@@ -1,0 +1,5 @@
+#labequipmentgrants .applicationform table {width: 100%;}
+#labequipmentgrants .applicationform table tr td:first-child {width: 250px;}
+#labequipmentgrants .applicationform table table tr th {border-top: 0;}
+#labequipmentgrants .applicationform table table tr td:first-child {width: auto;}
+#labequipmentgrants .applicationform table table td.amount {white-space: nowrap;}

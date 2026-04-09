@@ -136,12 +136,16 @@ class labEquipmentGrants extends frontControllerApplication
 		# Introduction
 		$form = new form (array (
 			'databaseConnection' => $this->databaseConnection,
-			'div' => 'ultimateform horizontalonly',
+			'div' => 'ultimateform horizontalonly applicationform',
 			'unsavedDataProtection' => true,
 			'displayRestrictions' => false,
 			'nullText' => '',
+			'display' => 'template',
+			'displayTemplate' => $this->formTemplate (),
 			'submitButtonText' => 'Submit my application!',
 			'formCompleteText' => $this->tick . ' Thank you. The labs team will reach out to let you know when your application has been considered.',
+			'cols' => 60,
+			'autofocus' => true,
 		));
 		$form->dataBinding (array (
 			'database' => $this->settings['database'],
@@ -196,6 +200,7 @@ class labEquipmentGrants extends frontControllerApplication
 			'submitButtonPosition' => 'bottom',
 			'fieldFiltering' => false,
 			'intelligence' => true,
+			'cols' => 60,
 		);
 		
 		# Delegate to the standard function for editing
@@ -220,10 +225,100 @@ class labEquipmentGrants extends frontControllerApplication
 			'item4Amount' => array ('prepend' => '&pound; ', ),
 			'item5Amount' => array ('prepend' => '&pound; ', ),
 			'itemsAdditional' => array ('rows' => 10, ),
+			'status' => array ('heading' => array (3 => 'Decision (internal information)', 'p' => '(This will not e-mail the applicant.)'), ),
 		);
 		
 		# Return the attributes list
 		return $dataBindingAttributes;
+	}
+	
+	
+	# Form template
+	public function formTemplate ()
+	{
+		return $html = '
+			{[[PROBLEMS]]}
+			
+			<table summary="Online submission form">
+				<tr>
+					<td class="title">Title:&nbsp;*</td>
+					<td class="data">{title}</td>
+				</tr>
+				<tr>
+					<td class="title">E-mail:<span class="requirednoneditable">&nbsp;*</span></td>
+					<td class="data">{email}</td>
+				</tr>
+				<tr>
+					<td class="title">Amount requested (including VAT):&nbsp;*</td>
+					<td class="data">{amount}</td>
+				</tr>
+				<tr>
+					<td class="title">Short justification of equipment requested:&nbsp;*</td>
+					<td class="data">{description}</td>
+				</tr>
+				<tr>
+					<td class="title">This equipment will be used primarily for:&nbsp;*</td>
+					<td class="data">
+						{purpose}
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">{_heading1}</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<table>
+							<tr>
+								<th></th>
+								<th>Description</th>
+								<th>Amount</th>
+								<th>Quantity</th>
+							</tr>
+							<tr>
+								<td>1. *</td>
+								<td>{item1Description}</td>
+								<td class="amount">{item1Amount}</td>
+								<td>{item1Quantity}</td>
+							</tr>
+							<tr>
+								<td>2.</td>
+								<td>{item2Description}</td>
+								<td class="amount">{item2Amount}</td>
+								<td>{item2Quantity}</td>
+							</tr>
+							<tr>
+								<td>3.</td>
+								<td>{item3Description}</td>
+								<td class="amount">{item3Amount}</td>
+								<td>{item3Quantity}</td>
+							</tr>
+							<tr>
+								<td>4.</td>
+								<td>{item4Description}</td>
+								<td class="amount">{item4Amount}</td>
+								<td>{item4Quantity}</td>
+							</tr>
+							<tr>
+								<td>5.</td>
+								<td>{item5Description}</td>
+								<td class="amount">{item5Amount}</td>
+								<td>{item5Quantity}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">If you have more than 5 items and/or cannot simplify your request into 5 lines, please paste in the rows/columns here from your spreadsheet.:</td>
+					<td class="data">{itemsAdditional}</td>
+				</tr>
+				<tr>
+					<td class="title">Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?:</td>
+					<td class="data">{comments}</td>
+				</tr>
+			</table>
+			
+			{[[SUBMIT]]}
+		';
 	}
 }
 
