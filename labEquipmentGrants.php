@@ -293,6 +293,7 @@ class labEquipmentGrants extends frontControllerApplication
 			'fieldFiltering' => false,
 			'intelligence' => true,
 			'cols' => 60,
+			'hideAddRecord' => true,
 		);
 		
 		# Delegate to the standard function for editing
