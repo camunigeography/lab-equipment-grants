@@ -94,6 +94,8 @@ class labEquipmentGrants extends frontControllerApplication
  			  `item5Quantity` int DEFAULT NULL COMMENT 'Item #5 quantity',
  			  `itemsAdditional` text COMMENT 'If you have more than 5 items and/or cannot simplify your request into 5 lines, please paste in the rows/columns here from your spreadsheet.',
  			  `comments` text COMMENT 'Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?',
+ 			  `status` enum('Submitted','Approved','Rejected') NOT NULL DEFAULT 'Submitted' COMMENT 'Status',
+ 			  `internalNotes` text COMMENT 'Internal notes',
  			  `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Updated at',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='My table';
@@ -151,6 +153,7 @@ class labEquipmentGrants extends frontControllerApplication
 			'database' => $this->settings['database'],
 			'table' => $this->settings['table'],
 			'intelligence' => true,
+			'exclude' => array ('status', 'internalNotes'),
 			'attributes' => $this->submissionsDataBindingAttributes (true),
 		));
 		
