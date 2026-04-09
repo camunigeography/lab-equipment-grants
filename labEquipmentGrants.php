@@ -293,6 +293,8 @@ class labEquipmentGrants extends frontControllerApplication
 			'fieldFiltering' => false,
 			'intelligence' => true,
 			'cols' => 60,
+			'display' => 'template',
+			'displayTemplate' => $this->formTemplate (true, $includeInternalFields = true),
 			'hideAddRecord' => true,
 		);
 		
@@ -328,11 +330,10 @@ class labEquipmentGrants extends frontControllerApplication
 	
 	
 	# Form template
-	public function formTemplate ($formMode = true)
+	public function formTemplate ($formMode = true, $includeInternalFields = false)
 	{
-		# Create the main HTML
+		# Create the main table rows as HTML
 		$html  = '
-			<table summary="Online submission form">
 				<tr>
 					<td class="title">Title:&nbsp;*</td>
 					<td class="data">{title}</td>
@@ -412,8 +413,34 @@ class labEquipmentGrants extends frontControllerApplication
 					<td class="title">Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?:</td>
 					<td class="data">{comments}</td>
 				</tr>
-			</table>
 		';
+		
+		# For sinenomine editing, include internal fields
+		if ($includeInternalFields) {
+			$html .= '
+				<tr>
+					<td colspan="2">{_heading2}</td>
+				</tr>
+				<tr>
+					<td colspan="2">{_heading3}</td>
+				</tr>
+				<tr>
+					<td class="title">ID:&nbsp;*</td>
+					<td class="data">{id}</td>
+				</tr>
+				<tr>
+					<td class="title">Status:&nbsp;*</td>
+					<td class="data">{status}</td>
+				</tr>
+				<tr>
+					<td class="title">Internal notes:&nbsp;*</td>
+					<td class="data">{internalNotes}</td>
+				</tr>
+			';
+		}
+		
+		# Complete the table
+		$html = "\n" . '<table summary="Online submission form">' . $html . "\n</table>";
 		
 		# In form mode, add problems/submit areas
 		if ($formMode) {
