@@ -5,7 +5,8 @@
     "license": "GPL-3.0-only",
     "minimum-stability": "stable",
     "require": {
-        "libpurecontent/frontcontrollerapplication": "^1.14"
+        "libpurecontent/frontcontrollerapplication": "^1.14",
+        "libpurecontent/sinenomine": "^1.1"
     },
     "autoload": {
         "files": ["labEquipmentGrants.php"]

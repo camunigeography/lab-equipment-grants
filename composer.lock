@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10dcd541779dd65cbb6fc4838c36a843",
+    "content-hash": "9859d87f71f4d4080eb31a99aa4a2c3c",
     "packages": [
         {
             "name": "camunigeography/camunidata",
