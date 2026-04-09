@@ -81,6 +81,7 @@ class labEquipmentGrants extends frontControllerApplication
  			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
  			  `title` varchar(255) NOT NULL COMMENT 'Title',
  			  `email` varchar(255) NOT NULL COMMENT 'E-mail',
+			  `name` varchar(255) NOT NULL COMMENT 'Name',
  			  `amount` decimal(6,2) NOT NULL COMMENT 'Amount requested (including VAT)',
  			  `description` text NOT NULL COMMENT 'Short justification of equipment requested',
  			  `purpose` enum('','Teaching','Fieldwork (including student dissertations)','Laboratory work','Health, safety or security purposes','Other') NOT NULL COMMENT 'This equipment will be used primarily for',
@@ -187,10 +188,10 @@ class labEquipmentGrants extends frontControllerApplication
 		}
 		
 		# Set conformation e-mail to the user
-		$form->setOutputConfirmationEmail ('email', $this->settings['administratorEmail'], 'Small equipment grant application', false, $displayUnsubmitted = false);
+		$form->setOutputConfirmationEmail ('email', $this->settings['administratorEmail'], 'Small equipment grant application: {title}', false, $displayUnsubmitted = false);
 		
 		# E-mail submissions to the team
-		$form->setOutputEmail ($this->settings['recipientEmail'], $this->settings['administratorEmail'], 'Small equipment grant application from {email}', NULL, $replyToField = 'email', $displayUnsubmitted = false);
+		$form->setOutputEmail ($this->settings['recipientEmail'], $this->settings['administratorEmail'], 'Small equipment grant application from {name}: {title}', NULL, $replyToField = 'email', $displayUnsubmitted = false);
 		
 		# Insert the submission on form complete
 		if ($submission = $form->process ($html)) {
@@ -295,6 +296,7 @@ class labEquipmentGrants extends frontControllerApplication
 		# Set the databinding attributes
 		$dataBindingAttributes = array (
 			'email' => array ('editable' => (!$userForm), 'default' => $this->user . '@cam.ac.uk', ),
+			'name' => array ('editable' => (!$userForm), 'default' => $this->userName, ),
 			'amount' => array ('prepend' => '&pound; ', ),
 			'item1Description' => array ('heading' => array (3 => 'Details of your requested items'), ),
 			'item1Amount' => array ('prepend' => '&pound; ', ),
@@ -320,6 +322,10 @@ class labEquipmentGrants extends frontControllerApplication
 				<tr>
 					<td class="title">Title:&nbsp;*</td>
 					<td class="data">{title}</td>
+				</tr>
+				<tr>
+					<td class="title">Name:<span class="requirednoneditable">&nbsp;*</span></td>
+					<td class="data">{name}</td>
 				</tr>
 				<tr>
 					<td class="title">E-mail:<span class="requirednoneditable">&nbsp;*</span></td>
