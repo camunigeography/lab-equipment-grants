@@ -3,20 +3,23 @@
 # Class to create a template application
 class labEquipmentGrants extends frontControllerApplication
 {
+	# Class properties
+	private $userIsCommitteeMember = false;
+	
 	# Function to assign defaults additional to the general application defaults
 	public function defaults ()
 	{
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
-			'applicationName'		=> 'Small equipment grant applications',
-			'div'					=> strtolower (__CLASS__),
-			'tabUlClass'			=> 'tabsflat',
-			'databaseStrictWhere'	=> true,
-			'nativeTypes'			=> true,
-			'administrators'		=> 'administrators',
-			'database'				=> 'labequipmentgrants',
-			'table'					=> 'submissions',
-			'recipientEmail'		=> NULL,
+			'applicationName'				=> 'Small equipment grant applications',
+			'div'							=> strtolower (__CLASS__),
+			'tabUlClass'					=> 'tabsflat',
+			'databaseStrictWhere'			=> true,
+			'nativeTypes'					=> true,
+			'administrators'				=> 'administrators',
+			'database'						=> 'labequipmentgrants',
+			'table'							=> 'submissions',
+			'settingsTableExplodeTextarea'	=> array ('committeeMembers'),
 		);
 		
 		# Return the defaults
@@ -41,7 +44,8 @@ class labEquipmentGrants extends frontControllerApplication
 				'url' => 'undecided/',
 				'tab' => 'Undecided submissions',
 				'icon' => 'application_cascade',
-				'administrator' => true,
+				'authentication' => true,
+				'enableIf' => ($this->userIsCommitteeMember || $this->userIsAdministrator),
 			),
 			'submissions' => array (
 				'description' => 'Edit submissions',
@@ -73,6 +77,7 @@ class labEquipmentGrants extends frontControllerApplication
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
 			  `maximumAmount` int NOT NULL COMMENT 'Maximum amount (£)',
+			  `committeeMembers` text NOT NULL COMMENT 'Committee member usernames (one per line)',
 			  `introductionHtml` TEXT NULL DEFAULT NULL COMMENT 'Introduction text'
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
 			INSERT INTO settings (id) VALUES (1);
@@ -111,6 +116,14 @@ class labEquipmentGrants extends frontControllerApplication
 		";
 	}
 	
+	
+	
+	# Additional processing, pre-actions phase
+	public function mainPreActions ()
+	{
+		# Determine if the user is a committee member
+		$this->userIsCommitteeMember = ($this->user && in_array ($this->user, $this->settings['committeeMembers']));
+	}
 	
 	
 	# Additional processing
