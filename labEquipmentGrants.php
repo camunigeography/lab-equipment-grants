@@ -72,7 +72,7 @@ class labEquipmentGrants extends frontControllerApplication
 			-- Settings
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
-			  `somesetting` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Some setting'
+			  `introductionHtml` TEXT NULL DEFAULT NULL COMMENT 'Introduction text'
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
 			INSERT INTO settings (id) VALUES (1);
 			
@@ -124,8 +124,7 @@ class labEquipmentGrants extends frontControllerApplication
 	public function home ()
 	{
 		# Introduction
-		$html  = "\n<p>The LFC administer funds for items between &pound;100-&pound;2,000 to support departmental lab and fieldwork.</p>";
-		$html .= "\n<p>Completed applications are discussed at termly meetings.</p>";
+		$html = $this->settings['introductionHtml'];
 		
 		# Application button
 		$html .= "\n<h3>Apply for a grant</h3>";
