@@ -86,8 +86,8 @@ class labEquipmentGrants extends frontControllerApplication
 			CREATE TABLE IF NOT EXISTS `submissions` (
  			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
  			  `title` varchar(255) NOT NULL COMMENT 'Title',
- 			  `email` varchar(255) NOT NULL COMMENT 'E-mail',
 			  `name` varchar(255) NOT NULL COMMENT 'Name',
+ 			  `email` varchar(255) NOT NULL COMMENT 'E-mail',
  			  `amount` decimal(6,2) NOT NULL COMMENT 'Amount requested (including VAT)',
  			  `description` text NOT NULL COMMENT 'Short justification of equipment requested',
  			  `purpose` enum('','Teaching','Fieldwork (including student dissertations)','Laboratory work','Health, safety or security purposes','Other') NOT NULL COMMENT 'This equipment will be used primarily for',
