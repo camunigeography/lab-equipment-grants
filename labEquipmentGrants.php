@@ -108,6 +108,7 @@ class labEquipmentGrants extends frontControllerApplication
  			  `item5Quantity` int DEFAULT NULL COMMENT 'Item #5 quantity',
  			  `itemsAdditional` text COMMENT 'If you have more than 5 items and/or cannot simplify your request into 5 lines, please paste in the rows/columns here from your spreadsheet.',
  			  `comments` text COMMENT 'Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?',
+			  `confirmation` TINYINT NOT NULL COMMENT 'I confirm the details provided here are correct, and estimated costs include all associated fees (e.g. shipping, VAT, etc.) at the date of submission.',
  			  `status` enum('Submitted','Approved','Rejected') NOT NULL DEFAULT 'Submitted' COMMENT 'Status',
  			  `internalNotes` text COMMENT 'Internal notes',
  			  `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Updated at',
@@ -184,6 +185,7 @@ class labEquipmentGrants extends frontControllerApplication
 			'intelligence' => true,
 			'exclude' => array ('status', 'internalNotes'),
 			'attributes' => $this->submissionsDataBindingAttributes (true),
+			'int1ToCheckbox' => true,
 		));
 		
 		# Check amounts
@@ -412,6 +414,10 @@ class labEquipmentGrants extends frontControllerApplication
 				<tr>
 					<td class="title">Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?:</td>
 					<td class="data">{comments}</td>
+				</tr>
+				<tr>
+					<td class="title">I confirm the details provided here are correct, and estimated costs include all associated fees (e.g. shipping, VAT, etc.) at the date of submission:</td>
+					<td class="data">{confirmation}</td>
 				</tr>
 		';
 		
