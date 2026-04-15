@@ -88,6 +88,7 @@ class labEquipmentGrants extends frontControllerApplication
  			  `title` varchar(255) NOT NULL COMMENT 'Title',
 			  `name` varchar(255) NOT NULL COMMENT 'Name',
  			  `email` varchar(255) NOT NULL COMMENT 'E-mail',
+			  `supervisorEmail` VARCHAR(255) NULL COMMENT 'Supervisor e-mail (for PhD students only)',
  			  `amount` decimal(6,2) NOT NULL COMMENT 'Amount requested (including VAT)',
  			  `description` text NOT NULL COMMENT 'Short justification of equipment requested',
  			  `purpose` enum('','Teaching','Fieldwork (including student dissertations)','Laboratory work','Health, safety or security purposes','Other') NOT NULL COMMENT 'This equipment will be used primarily for',
@@ -347,6 +348,10 @@ class labEquipmentGrants extends frontControllerApplication
 				<tr>
 					<td class="title">E-mail:<span class="requirednoneditable">&nbsp;*</span></td>
 					<td class="data">{email}</td>
+				</tr>
+				<tr>
+					<td class="title">Supervisor e-mail (for PhD students only):<span class="requirednoneditable">&nbsp;*</span></td>
+					<td class="data">{supervisorEmail}</td>
 				</tr>
 				<tr>
 					<td class="title">Amount requested (including VAT):&nbsp;*</td>
