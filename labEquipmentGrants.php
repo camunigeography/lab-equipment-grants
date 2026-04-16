@@ -20,6 +20,7 @@ class labEquipmentGrants extends frontControllerApplication
 			'database'						=> 'labequipmentgrants',
 			'table'							=> 'submissions',
 			'settingsTableExplodeTextarea'	=> array ('committeeMembers'),
+			'getSupervisorCallback'			=> false,
 		);
 		
 		# Return the defaults
@@ -312,10 +313,14 @@ class labEquipmentGrants extends frontControllerApplication
 	# Databinding attributes for submissions
 	private function submissionsDataBindingAttributes ($userForm = false)
 	{
+		# Get the user's supervisor
+		$supervisor = $this->getSupervisor ($this->user);
+		
 		# Set the databinding attributes
 		$dataBindingAttributes = array (
 			'email' => array ('editable' => (!$userForm), 'default' => $this->user . '@cam.ac.uk', ),
 			'name' => array ('editable' => (!$userForm), 'default' => $this->userName, ),
+			'supervisorEmail' => array ('default' => ($supervisor ? $supervisor . '@cam.ac.uk' : ''), ),
 			'amount' => array ('prepend' => '&pound; ', 'max' => $this->settings['maximumAmount'], ),
 			'item1Description' => array ('heading' => array (3 => 'Details of your requested items'), ),
 			'item1Amount' => array ('prepend' => '&pound; ', ),
@@ -329,6 +334,19 @@ class labEquipmentGrants extends frontControllerApplication
 		
 		# Return the attributes list
 		return $dataBindingAttributes;
+	}
+	
+	
+	# Function to get the supervisor of a user, via a callback
+	private function getSupervisor ($username)
+	{
+		# End if not enabled
+		if (!$this->settings['getSupervisorCallback']) {return false;}
+		
+		# Get the data and return it
+		$callbackFunction = $this->settings['getSupervisorCallback'];
+		$supervisor = $callbackFunction ($username);
+		return $supervisor;		// Username of supervisor, or false/NULL
 	}
 	
 	

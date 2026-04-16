@@ -4,10 +4,17 @@
 $settings = array (
 	'username' => 'my_username',
 	'password' => 'my_password',
+	'getSupervisorCallback' => 'getSupervisor',
 );
 
 # Load and run the application with the above settings
 require_once ('vendor/autoload.php');
 new labEquipmentGrants ($settings);
+
+# Callback function to get the supervisor of a user; this function will only be called if a user is signed in
+function getSupervisor ($username)
+{
+	// Return thesis supervisor's username for the supplied user, or false/NULL if not applicable
+}
 
 ?>
