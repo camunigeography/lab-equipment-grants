@@ -318,9 +318,9 @@ class labEquipmentGrants extends frontControllerApplication
 		
 		# Set the databinding attributes
 		$dataBindingAttributes = array (
-			'email' => array ('editable' => (!$userForm), 'default' => $this->user . '@cam.ac.uk', ),
+			'email' => array ('editable' => (!$userForm), 'default' => $this->user . '@' . $this->settings['emailDomain'], ),
 			'name' => array ('editable' => (!$userForm), 'default' => $this->userName, ),
-			'supervisorEmail' => array ('default' => ($supervisor ? $supervisor . '@cam.ac.uk' : ''), ),
+			'supervisorEmail' => array ('default' => ($supervisor ? $supervisor . '@' . $this->settings['emailDomain'] : ''), ),
 			'amount' => array ('prepend' => '&pound; ', 'max' => $this->settings['maximumAmount'], ),
 			'item1Description' => array ('heading' => array (3 => 'Details of your requested items'), ),
 			'item1Amount' => array ('prepend' => '&pound; ', ),
