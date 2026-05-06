@@ -198,7 +198,7 @@ class labEquipmentGrants extends frontControllerApplication
 				for ($i = 1; $i <= $itemsFields; $i++) {
 					$total += ((float) $unfinalisedData["item{$i}Amount"] * (int) $unfinalisedData["item{$i}Quantity"]);
 				}
-				if ($total != $unfinalisedData['amount']) {
+				if (round ($total, 2) != round ($unfinalisedData['amount'], 2)) {	// Round to avoid floating-point issues
 					$form->registerProblem ('totalMismatch', 'The total does not match the sum of the requested items. Please check the line items and the total.', 'amount');
 				}
 			}
