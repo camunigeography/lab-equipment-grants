@@ -438,6 +438,13 @@ class labEquipmentGrants extends frontControllerApplication
 					<td class="title">Are there any additional details you would like to include (e.g. website links, available discounts, lead times on particular items)?:</td>
 					<td class="data">{comments}</td>
 				</tr>
+				<tr colspan="2">
+					<td class="title">Quotations:</td>
+					<td class="data">
+						<p>If you have quotes for these items please forward them to labs<span>&#64;</span>geog.cam.ac.uk. A quote from the supplier is the most accurate way to ensure that all charges are included.</p>
+						<p>If your order is complicated or involves items being shipped from abroad, it is likely that the Labs team will ask you to procure a quote to be considered alongside your application.</p>
+					</td>
+				</tr>
 				<tr>
 					<td class="title">I confirm the details provided here are correct, and estimated costs include all associated fees (e.g. shipping, VAT, etc.) at the date of submission:</td>
 					<td class="data">{confirmation}</td>
