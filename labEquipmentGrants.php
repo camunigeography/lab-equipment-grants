@@ -386,7 +386,7 @@ class labEquipmentGrants extends frontControllerApplication
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">{_heading1}</td>
+					<td colspan="2">{item1Description_heading1}</td>
 				</tr>
 				<tr>
 					<td colspan="2">
